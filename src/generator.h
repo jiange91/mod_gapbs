@@ -41,10 +41,15 @@ class Generator {
     num_nodes_ = 1l << scale;
     num_edges_ = num_nodes_ * degree;
     if (num_nodes_ > std::numeric_limits<NodeID_>::max()) {
-      std::cout << "NodeID type (max: " << std::numeric_limits<NodeID_>::max();
-      std::cout << ") too small to hold " << num_nodes_ << std::endl;
-      std::cout << "Recommend changing NodeID (typedef'd in src/benchmark.h)";
-      std::cout << " to a wider type and recompiling" << std::endl;
+      // std::cout << "NodeID type (max: " << std::numeric_limits<NodeID_>::max();
+      // std::cout << ") too small to hold " << num_nodes_ << std::endl;
+      // std::cout << "Recommend changing NodeID (typedef'd in src/benchmark.h)";
+      // std::cout << " to a wider type and recompiling" << std::endl;
+
+      printf("NodeID type (max: %d", std::numeric_limits<NodeID_>::max() );
+      printf(") too small to hold %ld\n", num_nodes_ );
+      printf("Recommend changing NodeID (typedef'd in src/benchmark.h)");
+      printf(" to a wider type and recompiling\n" );
       std::exit(-31);
     }
   }

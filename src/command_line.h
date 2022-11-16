@@ -5,14 +5,13 @@
 #define COMMAND_LINE_H_
 
 #include <getopt.h>
-
+#include <cstdio>
 #include <algorithm>
 #include <cinttypes>
-#include <iostream>
 #include <string>
 #include <type_traits>
 #include <vector>
-
+#include "util.h"
 
 /*
 GAP Benchmark Suite
@@ -62,7 +61,7 @@ class CLBase {
     AddHelpLine('g', "scale", "generate 2^scale kronecker graph");
     AddHelpLine('u', "scale", "generate 2^scale uniform-random graph");
     AddHelpLine('k', "degree", "average degree for synthetic graph",
-                std::to_string(degree_));
+                i32_to_string(degree_));
     AddHelpLine('m', "", "reduces memory usage during graph building", "false");
   }
 
@@ -73,7 +72,8 @@ class CLBase {
       HandleArg(c_opt, optarg);
     }
     if ((filename_ == "") && (scale_ == -1)) {
-      std::cout << "No graph input specified. (Use -h for help)" << std::endl;
+      // std::cout << "No graph input specified. (Use -h for help)" << std::endl;
+      printf("No graph input specified. (Use -h for help)");
       return false;
     }
     if (scale_ != -1)
@@ -94,10 +94,12 @@ class CLBase {
   }
 
   void PrintUsage() {
-    std::cout << name_ << std::endl;
+    // std::cout << name_ << std::endl;
+    printf("%s\n", name_.c_str());
     // std::sort(help_strings_.begin(), help_strings_.end());
     for (std::string h : help_strings_)
-      std::cout << h << std::endl;
+      printf("%s\n", h.c_str());
+      // std::cout << h << std::endl;
     std::exit(0);
   }
 
@@ -121,7 +123,7 @@ class CLApp : public CLBase {
   CLApp(int argc, char** argv, std::string name) : CLBase(argc, argv, name) {
     get_args_ += "an:r:v";
     AddHelpLine('a', "", "output analysis of last run", "false");
-    AddHelpLine('n', "n", "perform n trials", std::to_string(num_trials_));
+    AddHelpLine('n', "n", "perform n trials", i32_to_string(num_trials_));
     AddHelpLine('r', "node", "start from node r", "rand");
     AddHelpLine('v', "", "verify the output of each run", "false");
   }
@@ -151,7 +153,7 @@ class CLIterApp : public CLApp {
   CLIterApp(int argc, char** argv, std::string name, int num_iters) :
     CLApp(argc, argv, name), num_iters_(num_iters) {
     get_args_ += "i:";
-    AddHelpLine('i', "i", "perform i iterations", std::to_string(num_iters_));
+    AddHelpLine('i', "i", "perform i iterations", i32_to_string(num_iters_));
   }
 
   void HandleArg(signed char opt, char* opt_arg) override {
@@ -176,8 +178,8 @@ class CLPageRank : public CLApp {
     CLApp(argc, argv, name), max_iters_(max_iters), tolerance_(tolerance) {
     get_args_ += "i:t:";
     AddHelpLine('i', "i", "perform at most i iterations",
-                std::to_string(max_iters_));
-    AddHelpLine('t', "t", "use tolerance t", std::to_string(tolerance_));
+                i32_to_string(max_iters_));
+    AddHelpLine('t', "t", "use tolerance t", double_to_string(tolerance_));
   }
 
   void HandleArg(signed char opt, char* opt_arg) override {
@@ -201,7 +203,7 @@ class CLDelta : public CLApp {
  public:
   CLDelta(int argc, char** argv, std::string name) : CLApp(argc, argv, name) {
     get_args_ += "d:";
-    AddHelpLine('d', "d", "delta parameter", std::to_string(delta_));
+    AddHelpLine('d', "d", "delta parameter", double_to_string(delta_));
   }
 
   void HandleArg(signed char opt, char* opt_arg) override {

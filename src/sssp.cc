@@ -3,8 +3,8 @@
 
 #include <cinttypes>
 #include <limits>
-#include <iostream>
 #include <queue>
+#include <cstdio>
 #include <vector>
 
 #include "benchmark.h"
@@ -144,7 +144,8 @@ pvector<WeightT> DeltaStep(const WGraph &g, NodeID source, WeightT delta) {
       #pragma omp barrier
     }
     #pragma omp single
-    cout << "took " << iter << " iterations" << endl;
+    printf("took %ld iterations\n", iter);
+    // cout << "took " << iter << " iterations" << endl;
   }
   return dist;
 }
@@ -153,7 +154,7 @@ pvector<WeightT> DeltaStep(const WGraph &g, NodeID source, WeightT delta) {
 void PrintSSSPStats(const WGraph &g, const pvector<WeightT> &dist) {
   auto NotInf = [](WeightT d) { return d != kDistInf; };
   int64_t num_reached = count_if(dist.begin(), dist.end(), NotInf);
-  cout << "SSSP Tree reaches " << num_reached << " nodes" << endl;
+  printf("SSSP Tree reaches %ld nodes\n", num_reached);
 }
 
 
@@ -183,7 +184,8 @@ bool SSSPVerifier(const WGraph &g, NodeID source,
   bool all_ok = true;
   for (NodeID n : g.vertices()) {
     if (dist_to_test[n] != oracle_dist[n]) {
-      cout << n << ": " << dist_to_test[n] << " != " << oracle_dist[n] << endl;
+      // cout << n << ": " << dist_to_test[n] << " != " << oracle_dist[n] << endl;
+      printf("%d: %d != %d\n", n, dist_to_test[n], oracle_dist[n]);
       all_ok = false;
     }
   }

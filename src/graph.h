@@ -7,7 +7,6 @@
 #include <algorithm>
 #include <cinttypes>
 #include <cstddef>
-#include <iostream>
 #include <type_traits>
 
 #include "pvector.h"
@@ -221,21 +220,28 @@ class CSRGraph {
   }
 
   void PrintStats() const {
-    std::cout << "Graph has " << num_nodes_ << " nodes and "
-              << num_edges_ << " ";
+    // std::cout << "Graph has " << num_nodes_ << " nodes and "
+    //           << num_edges_ << " ";
+    printf("Graph has %ld nodes and %ld ", num_nodes_, num_edges_);
     if (!directed_)
-      std::cout << "un";
-    std::cout << "directed edges for degree: ";
-    std::cout << num_edges_/num_nodes_ << std::endl;
+      printf("un");
+      // std::cout << "un";
+    // std::cout << "directed edges for degree: ";
+    printf( "directed edges for degree: ");
+    // std::cout << num_edges_/num_nodes_ << std::endl;
+    printf("%ld\n", num_edges_/num_nodes_);
   }
 
   void PrintTopology() const {
     for (NodeID_ i=0; i < num_nodes_; i++) {
-      std::cout << i << ": ";
+      // std::cout << i << ": ";
+      printf("%d: ", i);
       for (DestID_ j : out_neigh(i)) {
-        std::cout << j << " ";
+        // std::cout << j << " ";
+        printf("%d ", j);
       }
-      std::cout << std::endl;
+      // std::cout << std::endl;
+      printf("\n");
     }
   }
 

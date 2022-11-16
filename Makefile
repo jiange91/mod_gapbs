@@ -1,5 +1,5 @@
 # See LICENSE.txt for license details.
-
+CXX = /users/Zijian/Disagg-mlir/llvm-project/build/bin/clang++
 CXX_FLAGS += -std=c++11 -O3 -Wall
 PAR_FLAG = -fopenmp
 

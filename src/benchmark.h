@@ -89,7 +89,7 @@ std::vector<std::pair<ValT, KeyT>> TopK(
 
 
 bool VerifyUnimplemented(...) {
-  std::cout << "** verify unimplemented **" << std::endl;
+  printf("** verify unimplemented **\n");
   return false;
 }
 

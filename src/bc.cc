@@ -2,7 +2,6 @@
 // See LICENSE.txt for license details
 
 #include <functional>
-#include <iostream>
 #include <vector>
 
 #include "benchmark.h"
@@ -106,7 +105,8 @@ pvector<ScoreT> Brandes(const Graph &g, SourcePicker<Graph> &sp,
   const NodeID* g_out_start = g.out_neigh(0).begin();
   for (NodeID iter=0; iter < num_iters; iter++) {
     NodeID source = sp.PickNext();
-    cout << "source: " << source << endl;
+    // cout << "source: " << source << endl;
+    printf("source: %d\n", source);
     t.Start();
     path_counts.fill(0);
     depth_index.resize(0);
@@ -153,7 +153,8 @@ void PrintTopScores(const Graph &g, const pvector<ScoreT> &scores) {
   int k = 5;
   vector<pair<ScoreT, NodeID>> top_k = TopK(score_pairs, k);
   for (auto kvp : top_k)
-    cout << kvp.second << ":" << kvp.first << endl;
+    printf("%d:%f\n", kvp.second, kvp.first);
+    // cout << kvp.second << ":" << kvp.first << endl;
 }
 
 
@@ -217,8 +218,10 @@ bool BCVerifier(const Graph &g, SourcePicker<Graph> &sp, NodeID num_iters,
   for (NodeID n : g.vertices()) {
     ScoreT delta = abs(scores_to_test[n] - scores[n]);
     if (delta > std::numeric_limits<ScoreT>::epsilon()) {
-      cout << n << ": " << scores[n] << " != " << scores_to_test[n];
-      cout << "(" << delta << ")" << endl;
+      // cout << n << ": " << scores[n] << " != " << scores_to_test[n];
+      printf("%d: %f != %f\n", n, scores[n], scores_to_test[n]);
+      // cout << "(" << delta << ")" << endl;
+      printf("(%f)\n", delta);
       all_ok = false;
     }
   }
@@ -231,7 +234,8 @@ int main(int argc, char* argv[]) {
   if (!cli.ParseArgs())
     return -1;
   if (cli.num_iters() > 1 && cli.start_vertex() != -1)
-    cout << "Warning: iterating from same source (-r & -i)" << endl;
+    printf("Warning: iterating from same source (-r & -i)");
+    // cout << "Warning: iterating from same source (-r & -i)" << endl;
   Builder b(cli);
   Graph g = b.MakeGraph();
   SourcePicker<Graph> sp(g, cli.start_vertex());

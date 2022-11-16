@@ -21,6 +21,23 @@ Miscellaneous helpers that don't fit into classes
 
 static const int64_t kRandSeed = 27491095;
 
+std::string i32_to_string(int x) {
+  char buf[4 * sizeof(x)];
+  snprintf(buf, sizeof(buf), "%d", x);
+  return std::string(buf);
+}
+
+std::string u32_to_string(unsigned x) {
+  char buf[4 * sizeof(x)];
+  snprintf(buf, sizeof(buf), "%u", x);
+  return std::string(buf);
+}
+
+std::string double_to_string(double x) {
+  char buf[328];
+  snprintf(buf, sizeof(buf), "%f", x);
+  return std::string(buf);
+}
 
 void PrintLabel(const std::string &label, const std::string &val) {
   printf("%-21s%7s\n", (label + ":").c_str(), val.c_str());

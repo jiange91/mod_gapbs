@@ -6,7 +6,6 @@
 
 #include <algorithm>
 #include <cinttypes>
-#include <fstream>
 #include <functional>
 #include <type_traits>
 #include <utility>
@@ -52,8 +51,7 @@ class BuilderBase {
     needs_weights_ = !std::is_same<NodeID_, DestID_>::value;
     in_place_ = cli_.in_place();
     if (in_place_ && needs_weights_) {
-      std::cout << "In-place building (-m) does not support weighted graphs"
-                << std::endl;
+      printf( "In-place building (-m) does not support weighted graphs\n");
       exit(-30);
     }
   }
@@ -254,7 +252,7 @@ class BuilderBase {
       size_t newsize = (offsets[num_nodes_] * sizeof(DestID_));
       *neighs = static_cast<DestID_*>(std::realloc(*neighs, newsize));
       if (*neighs == nullptr) {
-        std::cout << "Call to realloc() failed" << std::endl;
+        printf("Call to realloc() failed\n" );
         exit(-33);
       }
       // Step 2 - spread out existing neighs to make room for inverses
@@ -367,7 +365,7 @@ class BuilderBase {
   CSRGraph<NodeID_, DestID_, invert> RelabelByDegree(
       const CSRGraph<NodeID_, DestID_, invert> &g) {
     if (g.directed()) {
-      std::cout << "Cannot relabel directed graph" << std::endl;
+      printf("Cannot relabel directed graph\n" );
       std::exit(-11);
     }
     Timer t;
