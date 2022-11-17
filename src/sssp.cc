@@ -197,6 +197,7 @@ int main(int argc, char* argv[]) {
   CLDelta<WeightT> cli(argc, argv, "single-source shortest-path");
   if (!cli.ParseArgs())
     return -1;
+  printf("num_trials %d, delta %d\n", cli.num_trials(), cli.delta());
   WeightedBuilder b(cli);
   WGraph g = b.MakeGraph();
   SourcePicker<WGraph> sp(g, cli.start_vertex());
