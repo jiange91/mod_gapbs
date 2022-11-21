@@ -1,7 +1,8 @@
 # See LICENSE.txt for license details.
 CXX = /users/Zijian/Disagg-mlir/llvm-project/build/bin/clang++
-CXX_FLAGS += -std=c++11 -O3 -Wall
+CXX_FLAGS += -std=c++11 -O3 -Wall -g
 PAR_FLAG = -fopenmp
+LIBS = -ltcmalloc
 
 ifneq (,$(findstring icpc,$(CXX)))
 	PAR_FLAG = -openmp
@@ -23,7 +24,7 @@ SUITE = $(KERNELS) converter
 all: $(SUITE)
 
 % : src/%.cc src/*.h
-	$(CXX) $(CXX_FLAGS) $< -o $@
+	$(CXX) $(CXX_FLAGS) $< -o $@ $(LIBS)
 
 # Testing
 include test/test.mk
